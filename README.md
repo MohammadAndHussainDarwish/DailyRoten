@@ -2,6 +2,23 @@
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
+## Build an Android APK with EAS
+
+1. Sign in to Expo in a terminal and link this app to an EAS project:
+
+   ```bash
+   npx eas-cli@latest login
+   npx eas-cli@latest init
+   ```
+
+   Commit and push the Expo project ID added to `app.json`.
+
+2. Create an Expo access token from your Expo account's access-token settings. In GitHub, open **Settings → Secrets and variables → Actions**, create a repository secret named `EXPO_TOKEN`, and paste the token as its value. Never add your Expo password or token to project files.
+
+3. Manually run **Build Android APK with EAS** from the repository's **Actions** tab. The installable APK build will appear in the linked EAS project.
+
+The `preview` build profile is configured to produce an internally distributed APK.
+
 ## Get started
 
 1. Install dependencies

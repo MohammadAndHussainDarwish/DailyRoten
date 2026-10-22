@@ -1,9 +1,6 @@
-name: Build Android APK
+name: Build Android APK with EAS
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
@@ -11,7 +8,7 @@ permissions:
 
 jobs:
   build:
-    name: Build installable debug APK
+    name: Build Android APK
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -26,24 +23,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Generate Android project
-        run: npx expo prebuild --platform android --no-install --non-interactive
-
-      - name: Set up Java
-        uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: 17
-          cache: gradle
-
-      - name: Build APK
-        working-directory: android
-        run: ./gradlew assembleDebug
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: DailyRoten-android-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
-          if-no-files-found: error
-          retention-days: 14
+      - name: Build APK on EAS
+        run: npx --yes eas-cli@latest build --platform android --profile preview --non-interactive --wait
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
